@@ -1,0 +1,29 @@
+{
+  "name": "jobify",
+  "version": "1.0.0",
+  "description": "Project in Action - [Jobify](https://www.jobify.live/)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Uros-Todorovic/jobify.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Uros-Todorovic/jobify/issues"
+  },
+  "homepage": "https://github.com/Uros-Todorovic/jobify#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.21"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.1"
+  }
+}
