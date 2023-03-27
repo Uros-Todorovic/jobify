@@ -18,7 +18,7 @@ import authRouter from './routes/authRoutes.js';
 import jobsRouter from './routes/jobRoutes.js';
 
 app.get('/api/v1', (req, res) => {
-	res.send('Wellcome from JOBIFY API');
+	res.json({ message: 'Wellcome from JOBIFY API' });
 });
 
 // Routes
