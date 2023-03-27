@@ -29,7 +29,7 @@ const reducer = (state, action) => {
 			user: action.payload.user,
 			token: action.payload.token,
 			userLocation: action.payload.location,
-			jobLocation: action.payload.loaction,
+			jobLocation: action.payload.location,
 			isLoading: false,
 			showAlert: true,
 			alertType: 'success',
@@ -42,6 +42,7 @@ const reducer = (state, action) => {
 			showAlert: true,
 			alertType: 'danger',
 			alertText: action.payload.message,
+			isLoading: false,
 		};
 	}
 	throw new Error(`No such action: ${action}`);
