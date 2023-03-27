@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 
 const Dashboard = () => {
 	return <div>Dashboard</div>;
