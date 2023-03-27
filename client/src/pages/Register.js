@@ -11,7 +11,7 @@ const initialValues = {
 };
 
 const Register = () => {
-	const { isLoading, showAlert, displayAlert, clearAlert } = useAppContext();
+	const { isLoading, showAlert, displayAlert, clearAlert, registerUser } = useAppContext();
 
 	const [values, setValues] = useState(initialValues);
 
@@ -31,7 +31,12 @@ const Register = () => {
 			displayAlert();
 			return;
 		}
-		console.log(values);
+		const currenUser = { name, email, password };
+		if (isMember) {
+			console.log('Alredy a member');
+		} else {
+			registerUser(currenUser);
+		}
 	};
 
 	return (
@@ -50,7 +55,7 @@ const Register = () => {
 				{/* Password Input*/}
 				<FormRow type="password" name="password" value={values.password} handleChange={handleChange} />
 
-				<button type="submit" className="btn btn-block">
+				<button type="submit" className="btn btn-block" disabled={isLoading}>
 					submit
 				</button>
 				<p>

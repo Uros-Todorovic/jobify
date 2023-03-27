@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer } from 'react';
-import { DISPLAY_ALERT, CLEAR_ALERT } from './actions';
+import axios from 'axios';
+import { DISPLAY_ALERT, CLEAR_ALERT, REGISTER_USER_BEGIN, REGISTER_USER_SUCCESS, REGISTER_USER_ERROR } from './actions';
 import reducer from './reducer';
 
 const initialState = {
@@ -7,6 +8,10 @@ const initialState = {
 	showAlert: false,
 	alertText: '',
 	alertType: '',
+	user: null,
+	token: null,
+	userLocation: '',
+	jobLocation: '',
 };
 
 const AppContext = createContext();
@@ -22,7 +27,26 @@ const AppProvider = ({ children }) => {
 		dispatch({ type: CLEAR_ALERT });
 	};
 
-	return <AppContext.Provider value={{ ...state, displayAlert, clearAlert }}>{children}</AppContext.Provider>;
+	const clearAlertDelayEffect = () => {
+		setTimeout(clearAlert, 3000);
+	};
+
+	const registerUser = async (currentUser) => {
+		dispatch({ type: REGISTER_USER_BEGIN });
+		try {
+			const response = await axios.post('/api/v1/auth/register', currentUser);
+			const { user, token, location } = response.data;
+			dispatch({ type: REGISTER_USER_SUCCESS, payload: { user, token, location } });
+			clearAlertDelayEffect();
+		} catch (error) {
+			console.log(error.response);
+			dispatch({ type: REGISTER_USER_ERROR, payload: { message: error.response.data.message } });
+		}
+	};
+
+	return (
+		<AppContext.Provider value={{ ...state, displayAlert, clearAlert, registerUser }}>{children}</AppContext.Provider>
+	);
 };
 
 export const useAppContext = () => {
