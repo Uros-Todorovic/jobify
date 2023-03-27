@@ -15,6 +15,7 @@ const register = async (req, res) => {
 		throw new BadRequestError('User alredy exists.');
 	}
 	const user = await User.create({ name, email, password });
+	// Creating JSON web token
 	const token = user.createJWT();
 	res
 		.status(StatusCodes.CREATED)

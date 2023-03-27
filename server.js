@@ -18,7 +18,6 @@ import authRouter from './routes/authRoutes.js';
 import jobsRouter from './routes/jobRoutes.js';
 
 app.get('/api/v1', (req, res) => {
-	//throw new Error('Error string from throwing NEW ERROR');
 	res.send('Wellcome from JOBIFY API');
 });
 
