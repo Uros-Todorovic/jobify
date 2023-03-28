@@ -1,6 +1,6 @@
 import { createContext, useContext, useReducer } from 'react';
 import axios from 'axios';
-import { DISPLAY_ALERT, CLEAR_ALERT, REGISTER_USER_BEGIN, REGISTER_USER_SUCCESS, REGISTER_USER_ERROR } from './actions';
+import { DISPLAY_ALERT, CLEAR_ALERT, SETUP_USER_BEGIN, SETUP_USER_SUCCESS, SETUP_USER_ERROR } from './actions';
 import reducer from './reducer';
 
 const user = localStorage.getItem('user');
@@ -47,21 +47,21 @@ const AppProvider = ({ children }) => {
 		setTimeout(clearAlert, 3000);
 	};
 
-	const registerUser = async (currentUser) => {
-		dispatch({ type: REGISTER_USER_BEGIN });
+	const setupUser = async (currentUser, isMember) => {
+		dispatch({ type: SETUP_USER_BEGIN });
 		try {
-			const response = await axios.post('/api/v1/auth/register', currentUser);
+			const response = await axios.post(`/api/v1/auth/${isMember ? 'login' : 'register'}`, currentUser);
 			const { user, token, location } = response.data;
-			dispatch({ type: REGISTER_USER_SUCCESS, payload: { user, token, location } });
+			dispatch({ type: SETUP_USER_SUCCESS, payload: { user, token, location, isMember } });
 			addUserToLocalStorage({ user, token, location });
 			clearAlertDelayEffect();
 		} catch (error) {
-			dispatch({ type: REGISTER_USER_ERROR, payload: { message: error.response.data.message } });
+			dispatch({ type: SETUP_USER_ERROR, payload: { message: error.response.data.message } });
 		}
 	};
 
 	return (
-		<AppContext.Provider value={{ ...state, displayAlert, clearAlert, registerUser }}>{children}</AppContext.Provider>
+		<AppContext.Provider value={{ ...state, displayAlert, clearAlert, setupUser }}>{children}</AppContext.Provider>
 	);
 };
 
