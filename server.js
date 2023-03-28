@@ -1,10 +1,14 @@
 import express from 'express';
 import 'express-async-errors';
 import dotenv from 'dotenv';
+import morgan from 'morgan';
 
 const app = express();
 dotenv.config();
 app.use(express.json());
+if (process.env.NODE !== 'production') {
+	app.use(morgan('dev'));
+}
 
 // DB
 import connectDB from './db/connect.js';
@@ -17,12 +21,14 @@ import errorHandlerMiddleware from './middleware/error-handler.js';
 import authRouter from './routes/authRoutes.js';
 import jobsRouter from './routes/jobRoutes.js';
 
+// Routes
+//Starter Route
 app.get('/api/v1', (req, res) => {
 	res.json({ message: 'Wellcome from JOBIFY API' });
 });
-
-// Routes
+// Auth Route
 app.use('/api/v1/auth', authRouter);
+// Jobs Route
 app.use('/api/v1/jobs', jobsRouter);
 // Not Foud
 app.use(notFoundMiddleware);
