@@ -16,6 +16,7 @@ import connectDB from './db/connect.js';
 // Midleware
 import notFoundMiddleware from './middleware/not-found.js';
 import errorHandlerMiddleware from './middleware/error-handler.js';
+import authenticateUser from './middleware/auth.js';
 
 // Routers
 import authRouter from './routes/authRoutes.js';
@@ -29,7 +30,7 @@ app.get('/api/v1', (req, res) => {
 // Auth Route
 app.use('/api/v1/auth', authRouter);
 // Jobs Route
-app.use('/api/v1/jobs', jobsRouter);
+app.use('/api/v1/jobs', authenticateUser, jobsRouter);
 // Not Foud
 app.use(notFoundMiddleware);
 // Error Handler
