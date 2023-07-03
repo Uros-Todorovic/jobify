@@ -48,9 +48,10 @@ const login = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-	const { email, name, lastName, location } = req.body;
 	const updateProperties = [req.body?.email, req.body?.name, req?.body.lastName, req?.body?.location];
 	emptyFieldChecker(updateProperties);
+
+	const { email, name, lastName, location } = req.body;
 
 	const user = await User.findOne({ _id: req.user.userId });
 

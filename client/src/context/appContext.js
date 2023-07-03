@@ -32,6 +32,14 @@ const AppContext = createContext();
 const AppProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
+	// Axios custom instance
+	const authFetch = axios.create({
+		baseURL: '/api/v1',
+		headers: {
+			Authorization: `Bearer ${state.token}`,
+		},
+	});
+
 	const addUserToLocalStorage = ({ user, token, location }) => {
 		localStorage.setItem('user', JSON.stringify(user));
 		localStorage.setItem('token', token);
@@ -78,8 +86,13 @@ const AppProvider = ({ children }) => {
 		dispatch({ type: LOGOUT_USER });
 	};
 
-	const updateUser = (user) => {
-		console.log(user);
+	const updateUser = async (currentUser) => {
+		try {
+			const { data } = await axios.patch('/api/v1/auth/updateUser', currentUser);
+			console.log(data);
+		} catch (error) {
+			console.log(error.response);
+		}
 	};
 
 	return (
