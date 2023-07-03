@@ -78,8 +78,12 @@ const AppProvider = ({ children }) => {
 		dispatch({ type: LOGOUT_USER });
 	};
 
+	const updateUser = (user) => {
+		console.log(user);
+	};
+
 	return (
-		<AppContext.Provider value={{ ...state, displayAlert, clearAlert, setupUser, toggleSidebar, logout }}>
+		<AppContext.Provider value={{ ...state, displayAlert, clearAlert, setupUser, toggleSidebar, logout, updateUser }}>
 			{children}
 		</AppContext.Provider>
 	);
