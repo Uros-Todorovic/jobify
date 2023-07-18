@@ -1,5 +1,14 @@
+import { StatusCodes } from 'http-status-codes';
+import { BadRequestError, UnAuthenticatedError } from '../errors/index.js';
+import emptyFieldChecker from '../utils/emptyFieldChecker.js';
+import Job from '../models/Job.js';
+
 const createJob = async (req, res) => {
-	res.status(200).send('Create job controller');
+	const jobProperties = [req.body?.position, req.body?.company];
+	emptyFieldChecker(jobProperties);
+	req.body.createdBy = req.user.userId;
+	const job = await Job.create(req.body);
+	res.status(StatusCodes.CREATED).json(job);
 };
 
 const deleteJob = async (req, res) => {
